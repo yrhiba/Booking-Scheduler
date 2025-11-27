@@ -69,6 +69,12 @@ function solve() {
         
         let allocated = false;
 
+        if (range && (query.checkIn < range.from || query.checkOut > range.to)) {
+            // before allocating pending queries, ensure each query's checkIn/checkOut falls within range.from..range.to; skip and leave unassigned if not
+            finalQueries.push(query);
+            continue;
+        }
+
         // Iterate rooms in strict order (e.g., Room101, then Room102...)
         for (const roomId of rooms) {
             const currentBookings = roomBookings[roomId];
